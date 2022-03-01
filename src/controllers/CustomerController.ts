@@ -15,7 +15,18 @@ export class CustomerController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.customerRepository.save(request.body);
+        const { email, password, firstName, lastName, age, address } = request.body;
+        const customer = new Customer();
+
+        customer.email = email;
+        customer.password = await Customer.hashPassword(password);
+        customer.firstName = firstName;
+        customer.lastName = lastName;
+        customer.age = age;
+        customer.address = address;
+        
+        await this.customerRepository.save(customer);
+        return customer;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

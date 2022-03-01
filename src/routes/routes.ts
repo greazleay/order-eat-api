@@ -6,27 +6,31 @@ export const Routes = [{
     route: "/customers",
     controller: CustomerController,
     action: "all",
-    validation: []
+    validation: [],
+    middlewares: []
 }, {
     method: "get",
     route: "/customers/:id",
     controller: CustomerController,
     action: "one",
-    validation: [param("id").isInt()]
+    validation: [param("id").isInt()],
+    middlewares: []
 }, {
     method: "post",
     route: "/customers",
     controller: CustomerController,
     action: "save",
     validation: [
-        body("firstName").isString(), 
+        body("firstName").isString().withMessage('firstName must be a string').notEmpty().withMessage('firstName must not be empty'),
         body("lastName").isString(), 
         body("age").isInt({ min: 1 }), 
-        body("address").isString()]
+        body("address").isString()],
+    middlewares: []
 }, {
     method: "delete",
     route: "/customers/:id",
     controller: CustomerController,
     action: "remove",
-    validation: [param("id").isInt()]
+    validation: [param("id").isInt()],
+    middlewares: []
 }];
