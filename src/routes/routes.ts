@@ -1,9 +1,10 @@
 import { CustomerController } from "../controllers/CustomerController";
+import { AuthController } from "../controllers/AuthController";
 import { body, param } from "express-validator";
 
 export const Routes = [{
     method: "get",
-    route: "/customers",
+    route: "/customers/all",
     controller: CustomerController,
     action: "all",
     validation: [],
@@ -17,7 +18,7 @@ export const Routes = [{
     middlewares: []
 }, {
     method: "post",
-    route: "/customers",
+    route: "/customers/register",
     controller: CustomerController,
     action: "save",
     validation: [
@@ -32,5 +33,15 @@ export const Routes = [{
     controller: CustomerController,
     action: "remove",
     validation: [param("id").isInt()],
+    middlewares: []
+}, {
+    method: "post",
+    route: "/customers/login",
+    controller: AuthController,
+    action: "login",
+    validation: [
+        body("email").isString().withMessage('email must be a string').notEmpty().withMessage('email must not be empty').isEmail().withMessage('email must be a valid email'),
+        body("password").isString().withMessage('password must be a string').notEmpty().withMessage('password must not be empty'),
+    ],
     middlewares: []
 }];

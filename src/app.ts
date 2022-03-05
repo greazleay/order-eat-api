@@ -9,6 +9,7 @@ import morgan from "morgan";
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 
+import { ENV } from "./utils/validateENV";
 import { Routes } from "../src/routes/routes";
 
 // create express app
@@ -31,7 +32,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
-app.use(cookieParser());
+app.use(cookieParser(ENV.COOKIE_SECRET));
 app.use(helmet());
 app.use(compression());
 
@@ -39,7 +40,7 @@ app.use(compression());
 Routes.forEach(route => {
     (app as any)[route.method](route.route,
         ...route.validation, ...route.middlewares,
-        
+
         async (req: Request, res: Response, next: Function) => {
 
             try {
