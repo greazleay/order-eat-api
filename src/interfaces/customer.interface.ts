@@ -6,6 +6,7 @@ export interface ICustomer {
     lastName: string;
     age: number;
     address: string;
+    personalKey: string,
     createdAt: Date;
     updatedAt: Date;
     version: number;

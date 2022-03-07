@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, VersionColumn } from "typeorm";
 import { BaseEntity } from "typeorm/repository/BaseEntity";
 import bcrypt from "bcrypt";
-import { sign } from "jsonwebtoken";
+import { randomBytes } from "crypto";
+import { sign, verify } from "jsonwebtoken";
 import { ICustomer } from "../interfaces/customer.interface";
 import { ITokens } from "../interfaces/auth.interface";
 import { NextFunction } from "express";
@@ -31,6 +32,9 @@ export class Customer extends BaseEntity {
 
     @Column()
     address!: string;
+
+    @Column()
+    personalKey!: string;
 
     @Column()
     @CreateDateColumn()
@@ -72,5 +76,21 @@ export class Customer extends BaseEntity {
         } catch (error) {
             next(error);
         }
+    };
+
+    static async verifyJWT(token: string, next: NextFunction): Promise<boolean> {
+        try {
+            const PUBLIC_KEY = Buffer.from(ENV.ACCESS_TOKEN_PUBLIC_KEY_BASE64, 'base64').toString('ascii');
+            const payload = verify(token, PUBLIC_KEY);
+            return true;
+        } catch (error) {
+            next(error);
+            return false;
+        }
+    };
+
+    static async generatePersonalKey () {
+        const personalKey = randomBytes(32);
+        return personalKey.toString('hex');
     };
 }
