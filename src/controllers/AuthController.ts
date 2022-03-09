@@ -30,13 +30,13 @@ export class AuthController {
         const isValid = await Customer.verifyJWT(token, next);
         if (!isValid) return { status: 401, message: "Invalid token" };
 
-        // Revoke token
-        const revoked = await Customer.revokeJWT(token, next);
-        if (!revoked) return { status: 500, message: "Error revoking token" };
+        // // Revoke token
+        // const revoked = await Customer.revokeJWT(token, next);
+        // if (!revoked) return { status: 500, message: "Error revoking token" };
 
-        // Revoke refresh token
-        const revokedRefresh = await Customer.revokeJWT(refreshToken, next);
-        if (!revokedRefresh) return { status: 500, message: "Error revoking refresh token" };
+        // // Revoke refresh token
+        // const revokedRefresh = await Customer.revokeJWT(refreshToken, next);
+        // if (!revokedRefresh) return { status: 500, message: "Error revoking refresh token" };
 
         return { status: 200, message: "Logout successful" };
     }

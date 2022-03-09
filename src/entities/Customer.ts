@@ -33,7 +33,7 @@ export class Customer extends BaseEntity {
     @Column()
     address!: string;
 
-    @Column()
+    @Column({ nullable: true })
     personalKey!: string;
 
     @Column()
@@ -62,6 +62,7 @@ export class Customer extends BaseEntity {
                 email: customer.email,
                 age: customer.age,
                 address: customer.address,
+                personalKey: customer.personalKey,
             };
 
             // Process Access token
@@ -89,8 +90,7 @@ export class Customer extends BaseEntity {
         }
     };
 
-    static async generatePersonalKey () {
-        const personalKey = randomBytes(32);
-        return personalKey.toString('hex');
+    static async generatePersonalKey() {
+        return randomBytes(16).toString('hex');
     };
 }

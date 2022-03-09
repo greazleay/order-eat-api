@@ -7,7 +7,19 @@ export class CustomerController {
     private customerRepository = getRepository(Customer);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.customerRepository.find();
+        const customers = await this.customerRepository.find();
+        const foundCustomers = customers.map(customer => {
+            return {
+                id: customer.id,
+                email: customer.email,
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                age: customer.age,
+                address: customer.address,
+                personalKey: customer.personalKey
+            };
+        })
+        return foundCustomers;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -24,6 +36,7 @@ export class CustomerController {
         customer.lastName = lastName;
         customer.age = age;
         customer.address = address;
+        customer.personalKey = await Customer.generatePersonalKey();
         
         await this.customerRepository.save(customer);
         return customer;

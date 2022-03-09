@@ -1,6 +1,7 @@
 import { CustomerController } from "../controllers/CustomerController";
 import { AuthController } from "../controllers/AuthController";
 import { body, param } from "express-validator";
+import { authorizeRequest } from "../middlewares/middleware";
 
 export const Routes = [{
     method: "get",
@@ -8,7 +9,7 @@ export const Routes = [{
     controller: CustomerController,
     action: "all",
     validation: [],
-    middlewares: []
+    middlewares: [authorizeRequest]
 }, {
     method: "get",
     route: "/customers/:id",
@@ -23,8 +24,8 @@ export const Routes = [{
     action: "save",
     validation: [
         body("firstName").isString().withMessage('firstName must be a string').notEmpty().withMessage('firstName must not be empty'),
-        body("lastName").isString(), 
-        body("age").isInt({ min: 1 }), 
+        body("lastName").isString(),
+        body("age").isInt({ min: 1 }),
         body("address").isString()],
     middlewares: []
 }, {

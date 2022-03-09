@@ -46,6 +46,7 @@ Routes.forEach(route => {
             try {
                 const errors = validationResult(req);
                 if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
                 const result = await (new (route.controller as any))[route.action](req, res, next);
                 res.json(result);
             } catch (error) {
