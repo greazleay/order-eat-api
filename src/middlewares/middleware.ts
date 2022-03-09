@@ -1,6 +1,6 @@
 import { Request, NextFunction, Response } from "express";
 import { Customer } from "./../entities/Customer";
-import { ApplicationError } from "../utils/CustomAppError";
+import { ApplicationError } from "../utils/ApplicationError";
 
 export const authorizeRequest = async (request: Request, res: Response, next: NextFunction) => {
     try {
