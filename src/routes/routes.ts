@@ -1,7 +1,7 @@
 import { CustomerController } from "../controllers/CustomerController";
 import { AuthController } from "../controllers/AuthController";
 import { body, param } from "express-validator";
-import { authorizeRequest } from "../middlewares/middleware";
+import { AuthService } from "../services/auth.service";
 
 export const Routes = [{
     method: "get",
@@ -9,7 +9,7 @@ export const Routes = [{
     controller: CustomerController,
     action: "all",
     validation: [],
-    middlewares: [authorizeRequest]
+    middlewares: [AuthService.authenticate]
 }, {
     method: "get",
     route: "/customers/:id",

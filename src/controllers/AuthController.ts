@@ -2,6 +2,7 @@ import { Customer } from "../entities/Customer";
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import { ITokens } from "../interfaces/auth.interface";
+import { AuthService } from "../services/auth.service";
 
 export class AuthController {
     async login(request: Request, response: Response, next: NextFunction) {
@@ -19,7 +20,7 @@ export class AuthController {
         await customer.save();
 
         // Generate JWT
-        const { token, refreshToken } = await Customer.generateJWT(customer, next) as ITokens;
+        const { token, refreshToken } = await AuthService.genTokens(customer, next) as ITokens;
         return { status: 200, message: "Login successful", token, refreshToken };
     };
 
@@ -27,8 +28,8 @@ export class AuthController {
         const { token, refreshToken } = request.body;
 
         // Check if token is valid
-        const isValid = await Customer.verifyJWT(token, next);
-        if (!isValid) return { status: 401, message: "Invalid token" };
+        // const isValid = await Customer.verifyJWT(token, next);
+        // if (!isValid) return { status: 401, message: "Invalid token" };
 
         // // Revoke token
         // const revoked = await Customer.revokeJWT(token, next);
