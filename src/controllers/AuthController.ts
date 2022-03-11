@@ -32,7 +32,7 @@ export class AuthController {
     async logout(request: Request, response: Response, next: NextFunction) {
         try {
             const { customer } = request.body;
-            customer.personalKey = null;
+            customer.personalKey = Customer.generatePersonalKey();
             await customer.save();
             return { status: 200, message: "Logout successful" };
         } catch (error) {

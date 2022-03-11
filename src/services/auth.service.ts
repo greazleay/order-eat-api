@@ -32,6 +32,17 @@ export class AuthService {
         }
     };
 
+    public static async authorize(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const { customer } = req.body;
+            if (!customer.isActive) throw new AppError("Customer is not active", 401);
+            if (!customer.isAdmin) throw new AppError("Customer is not authorized to perform this action", 403);
+            next();
+        } catch (error) {
+            return next(error);
+        }
+    }
+
     public static async genTokens(customer: ICustomer, next: NextFunction): Promise<ITokens | void> {
         try {
             const payload = {
@@ -43,6 +54,8 @@ export class AuthService {
                 age: customer.age,
                 address: customer.address,
                 personalKey: customer.personalKey,
+                isActive: customer.isActive,
+                isAdmin: customer.isAdmin
             };
 
             // Process Access token

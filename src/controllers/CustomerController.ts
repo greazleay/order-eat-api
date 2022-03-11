@@ -16,7 +16,9 @@ export class CustomerController {
                 lastName: customer.lastName,
                 age: customer.age,
                 address: customer.address,
-                personalKey: customer.personalKey
+                personalKey: customer.personalKey,
+                isActive: customer.isActive,
+                isAdmin: customer.isAdmin
             };
         })
         return foundCustomers;

@@ -30,6 +30,12 @@ export class Customer extends BaseEntity {
     @Column({ nullable: true })
     personalKey!: string;
 
+    @Column({ default: true, nullable: true })
+    isActive!: boolean;
+
+    @Column({ default: false, nullable: true })
+    isAdmin!: boolean;
+
     @Column()
     @CreateDateColumn()
     createdAt!: Date;

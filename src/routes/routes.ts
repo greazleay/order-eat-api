@@ -16,7 +16,7 @@ export const Routes = [{
     controller: CustomerController,
     action: "one",
     validation: [param("id").isInt()],
-    middlewares: []
+    middlewares: [AuthService.authenticate]
 }, {
     method: "post",
     route: "/customers/register",
@@ -34,7 +34,7 @@ export const Routes = [{
     controller: CustomerController,
     action: "remove",
     validation: [param("id").isInt()],
-    middlewares: []
+    middlewares: [AuthService.authenticate, AuthService.authorize]
 }, {
     method: "post",
     route: "/customers/login",

@@ -7,6 +7,8 @@ export interface ICustomer {
     age: number;
     address: string;
     personalKey: string,
+    isActive: boolean;
+    isAdmin: boolean;
     createdAt: Date;
     updatedAt: Date;
     version: number;
