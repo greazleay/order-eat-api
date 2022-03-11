@@ -45,4 +45,11 @@ export const Routes = [{
         body("password").isString().withMessage('password must be a string').notEmpty().withMessage('password must not be empty'),
     ],
     middlewares: []
+}, {
+    method: "post",
+    route: "/customers/logout",
+    controller: AuthController,
+    action: "logout",
+    validation: [],
+    middlewares: [AuthService.authenticate]
 }];
