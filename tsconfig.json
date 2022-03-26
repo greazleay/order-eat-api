@@ -24,15 +24,15 @@
         "baseUrl": ".",
         "paths": {
             "@*": ["*"],
-            "@global": ["global.d.ts"],
             "@controllers/*": ["src/controllers/*"],
             "@docs/*": ["src/docs/*"],
             "@entities/*": ["src/entities/*"],
+            "@errors/*": ["src/errors/*"],
             "@interfaces/*": ["src/interfaces/*"],
             "@middlewares/*": ["src/middlewares/*"],
-            "@modules/*": ["src/*"],
             "@routes/*": ["src/routes/*"],
             "@services/*": ["src/services/*"],
+            "@src/*": ["src/*"],
             "@utils/*": ["src/utils/*"]
         }
     }

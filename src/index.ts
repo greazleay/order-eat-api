@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import app from "../src/app";
-import { PORT } from "../src/config";
+import app from "@src/app";
+import { PORT } from "@src/config";
 
 createConnection().then(async connection => {
 

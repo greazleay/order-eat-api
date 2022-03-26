@@ -1,7 +1,7 @@
-import { CustomerController } from "../controllers/CustomerController";
-import { AuthController } from "../controllers/AuthController";
 import { body, param } from "express-validator";
-import { AuthService } from "../services/auth.service";
+import { CustomerController } from "@controllers/CustomerController";
+import { AuthController } from "@controllers/AuthController";
+import { AuthService } from "@services/auth.service";
 
 export const Routes = [{
     method: "get",

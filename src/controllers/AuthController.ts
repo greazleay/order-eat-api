@@ -1,9 +1,9 @@
-import { Customer } from "../entities/Customer";
-import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import { ITokens } from "../interfaces/auth.interface";
-import { AuthService } from "../services/auth.service";
-import { AppError } from "../utils/AppError";
+import { Request, Response, NextFunction } from "express";
+import { Customer } from "@entities/Customer";
+import { ITokens } from "@interfaces/auth.interface";
+import { AuthService } from "@services/auth.service";
+import { AppError } from "@errors/AppError";
 
 export class AuthController {
     async login(request: Request, response: Response, next: NextFunction) {

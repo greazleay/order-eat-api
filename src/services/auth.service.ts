@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { Customer } from "../entities/Customer";
-import { AppError } from "../utils/AppError";
+import { Customer } from "@entities/Customer";
+import { AppError } from "@errors/AppError";
 import { JsonWebTokenError, JwtPayload, sign, verify } from "jsonwebtoken";
-import { ENV } from "../utils/validateENV";
-import { ICustomer } from "../interfaces/customer.interface";
-import { ITokens } from "../interfaces/auth.interface";
+import { ENV } from "@utils/validateENV";
+import { ICustomer } from "@interfaces/customer.interface";
+import { ITokens } from "@interfaces/auth.interface";
 
 export class AuthService {
     public static async authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -21,6 +21,7 @@ export class AuthService {
             if (!customer) throw new AppError("Customer not found", 404);
 
             if (customer.personalKey !== decoded.personalKey) throw new AppError("Invalid personal key", 401);
+            
             req.body.customer = customer;
 
             next();

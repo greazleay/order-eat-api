@@ -9,8 +9,8 @@ import morgan from "morgan";
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 
-import { ENV } from "./utils/validateENV";
-import { Routes } from "../src/routes/routes";
+import { ENV } from "@utils/validateENV";
+import { Routes } from "@routes/routes";
 
 // create express app
 const app = express();

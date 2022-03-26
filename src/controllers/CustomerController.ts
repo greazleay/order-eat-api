@@ -1,28 +1,34 @@
 import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
-import { Customer } from "./../entities/Customer";
+import { Customer } from "@entities/Customer";
 
 export class CustomerController {
 
     private customerRepository = getRepository(Customer);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        const customers = await this.customerRepository.find();
-        const foundCustomers = customers.map(customer => {
-            return {
-                id: customer.id,
-                email: customer.email,
-                firstName: customer.firstName,
-                lastName: customer.lastName,
-                age: customer.age,
-                address: customer.address,
-                personalKey: customer.personalKey,
-                isActive: customer.isActive,
-                isAdmin: customer.isAdmin
-            };
-        })
-        return foundCustomers;
-    }
+        try {
+            const customers = await this.customerRepository.find();
+            const foundCustomers = customers.map(customer => {
+                return {
+                    id: customer.id,
+                    email: customer.email,
+                    firstName: customer.firstName,
+                    lastName: customer.lastName,
+                    age: customer.age,
+                    address: customer.address,
+                    personalKey: customer.personalKey,
+                    isActive: customer.isActive,
+                    isAdmin: customer.isAdmin
+                };
+            });
+            
+            return foundCustomers;
+
+        } catch (error) {
+            return next(error);
+        }
+    };
 
     async one(request: Request, response: Response, next: NextFunction) {
         return this.customerRepository.findOne(request.params.id);
@@ -39,7 +45,7 @@ export class CustomerController {
         customer.age = age;
         customer.address = address;
         customer.personalKey = await Customer.generatePersonalKey();
-        
+
         await this.customerRepository.save(customer);
         return customer;
     }
