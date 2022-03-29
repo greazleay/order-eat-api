@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, VersionColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, OneToMany } from "typeorm";
 import { BaseEntity } from "typeorm/repository/BaseEntity";
 import bcrypt from "bcrypt";
 import { randomBytes } from "crypto";
+import { Account } from "@entities/Account";
+
+enum Role {
+    USER = "user",
+    ADMIN = "admin"
+}
+
 
 @Entity()
 export class Customer extends BaseEntity {
@@ -33,8 +40,11 @@ export class Customer extends BaseEntity {
     @Column({ default: true, nullable: true })
     isActive!: boolean;
 
-    @Column({ default: false, nullable: true })
-    isAdmin!: boolean;
+    @Column({ type: "enum", enum: Role, default: Role.USER })
+    role!: Role;
+
+    @OneToMany(() => Account, account => account.customer)
+    accounts!: Account[];
 
     @Column()
     @CreateDateColumn()
