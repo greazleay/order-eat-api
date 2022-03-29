@@ -11,6 +11,7 @@ import { validationResult } from "express-validator";
 
 import { ENV } from "@utils/validateENV";
 import { Routes } from "@routes/routes";
+import { cookieOptions } from "@utils/lib";
 
 // create express app
 const app = express();
@@ -47,8 +48,8 @@ Routes.forEach(route => {
                 const errors = validationResult(req);
                 if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-                const result = await (new (route.controller as any))[route.action](req, res, next);
-                res.json(result);
+                const { refreshToken, ...data } = await (new (route.controller as any))[route.action](req, res, next);
+                refreshToken ? res.cookie('jit', refreshToken, cookieOptions).json(data) : res.json(data);
             } catch (error) {
                 next(error);
             }

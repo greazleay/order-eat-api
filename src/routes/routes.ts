@@ -52,4 +52,11 @@ export const Routes = [{
     action: "logout",
     validation: [],
     middlewares: [AuthService.authenticate]
+}, {
+    method: "post",
+    route: "/customers/refresh_token",
+    controller: AuthController,
+    action: "refresh_token",
+    validation: [],
+    middlewares: []
 }];
