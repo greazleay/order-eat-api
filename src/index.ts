@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
 import app from "@src/app";
+import { AppDataSource } from "@src/data-source";
 import { PORT } from "@src/config";
 
-createConnection().then(async connection => {
+AppDataSource.initialize().then(async () => {
 
     app.listen(PORT);
-    console.log("Server has started on port 3000");
+    console.log(`Server has started on port ${PORT}`);
 
-}).catch(error => console.log(error));
+}).catch(error => console.error(error));

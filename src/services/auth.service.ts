@@ -17,11 +17,11 @@ export class AuthService {
             const PUBLIC_KEY = Buffer.from(ENV.ACCESS_TOKEN_PUBLIC_KEY_BASE64, 'base64').toString('ascii');
             const decoded: any = verify(token, PUBLIC_KEY);
 
-            const customer = await Customer.findOne({ where: { id: decoded.sub } });
+            const customer = await Customer.findOneBy({ id: decoded.sub });
             if (!customer) throw new AppError("Customer not found", 404);
 
             if (customer.personalKey !== decoded.personalKey) throw new AppError("Invalid personal key", 401);
-            
+
             req.body.customer = customer;
 
             next();
@@ -37,7 +37,7 @@ export class AuthService {
         try {
             const { customer } = req.body;
             if (!customer.isActive) throw new AppError("Customer is not active", 401);
-            if (!customer.isAdmin) throw new AppError("Customer is not authorized to perform this action", 403);
+            if (customer.role !== 'admin') throw new AppError("Customer is not authorized to perform this action", 403);
             next();
         } catch (error) {
             return next(error);
@@ -56,7 +56,7 @@ export class AuthService {
                 address: customer.address,
                 personalKey: customer.personalKey,
                 isActive: customer.isActive,
-                isAdmin: customer.isAdmin
+                role: customer.role
             };
 
             // Process Access token

@@ -14,7 +14,7 @@ export class AuthController {
             const { email, password } = request.body;
 
             // Check if Customer Exists
-            const customer = await Customer.findOne({ email });
+            const customer = await Customer.findOneBy({ email });
             if (!customer) throw new AppError("Customer not found", 404);
 
             // Validate supplied password
@@ -54,7 +54,7 @@ export class AuthController {
             const decoded = verify(jit, REFRESH_TOKEN_PUBLIC_KEY) as JwtPayload;
 
             // Check if Customer Exists
-            const customer = await Customer.findOne({ id: decoded.sub });
+            const customer = await Customer.findOneBy({ id: decoded.sub });
             if (!customer) throw new AppError("Customer not found", 404);
 
             // Generate JWT

@@ -8,7 +8,7 @@ export interface ICustomer {
     address: string;
     personalKey: string,
     isActive: boolean;
-    isAdmin: boolean;
+    role: string;
     createdAt: Date;
     updatedAt: Date;
     version: number;

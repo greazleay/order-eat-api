@@ -1,14 +1,11 @@
-import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
 import { Customer } from "@entities/Customer";
 
 export class CustomerController {
 
-    private customerRepository = getRepository(Customer);
-
     async all(request: Request, response: Response, next: NextFunction) {
         try {
-            const customers = await this.customerRepository.find();
+            const customers = await Customer.find();
             const foundCustomers = customers.map(customer => {
                 return {
                     id: customer.id,
@@ -19,10 +16,10 @@ export class CustomerController {
                     address: customer.address,
                     personalKey: customer.personalKey,
                     isActive: customer.isActive,
-                    isAdmin: customer.isAdmin
+                    isAdmin: customer.role
                 };
             });
-            
+
             return foundCustomers;
 
         } catch (error) {
@@ -31,28 +28,42 @@ export class CustomerController {
     };
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.customerRepository.findOne(request.params.id);
+        try {
+            const customer = await Customer.findOneBy({ id: request.params.id });
+            return customer;
+        } catch (error) {
+            return next(error)
+        }
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { email, password, firstName, lastName, age, address } = request.body;
-        const customer = new Customer();
+        try {
+            const { email, password, firstName, lastName, age, address } = request.body;
+            const customer = new Customer();
 
-        customer.email = email;
-        customer.password = await Customer.hashPassword(password);
-        customer.firstName = firstName;
-        customer.lastName = lastName;
-        customer.age = age;
-        customer.address = address;
-        customer.personalKey = await Customer.generatePersonalKey();
+            customer.email = email;
+            customer.password = await Customer.hashPassword(password);
+            customer.firstName = firstName;
+            customer.lastName = lastName;
+            customer.age = age;
+            customer.address = address;
+            customer.personalKey = await Customer.generatePersonalKey();
 
-        await this.customerRepository.save(customer);
-        return customer;
+            await customer.save();
+            return customer;
+        } catch (error) {
+            return next(error)
+        }
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let customerToRemove = await this.customerRepository.findOne(request.params.id) as Customer;
-        await this.customerRepository.remove(customerToRemove);
+        try {
+            const customerToRemove = await Customer.findOneBy({ id: request.params.id }) as Customer;
+            await customerToRemove.remove();
+            return { status: 200, message: `Customer with id ${request.params.id} removed successfully` }
+        } catch (error) {
+            return next(error);
+        }
     }
 
 }
