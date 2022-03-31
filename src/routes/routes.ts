@@ -37,7 +37,7 @@ export const Routes = [{
     middlewares: [AuthService.authenticate, AuthService.authorize]
 }, {
     method: "post",
-    route: "/customers/login",
+    route: "/auth/login",
     controller: AuthController,
     action: "login",
     validation: [
@@ -47,14 +47,14 @@ export const Routes = [{
     middlewares: []
 }, {
     method: "post",
-    route: "/customers/logout",
+    route: "/auth/logout",
     controller: AuthController,
     action: "logout",
     validation: [],
     middlewares: [AuthService.authenticate]
 }, {
     method: "post",
-    route: "/customers/refresh_token",
+    route: "/auth/refresh_token",
     controller: AuthController,
     action: "refresh_token",
     validation: [],

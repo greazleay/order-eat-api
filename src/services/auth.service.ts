@@ -47,8 +47,8 @@ export class AuthService {
     public static async genTokens(customer: ICustomer, next: NextFunction): Promise<ITokens | void> {
         try {
             const payload = {
-                aud: "http://localhost:3000",
-                iss: "http://localhost:3000",
+                aud: "https://api-finsys.herokuapp.com",
+                iss: "https://api-finsys.herokuapp.com",
                 sub: customer.id,
                 name: customer.firstName + " " + customer.lastName,
                 email: customer.email,
