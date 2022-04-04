@@ -20,7 +20,6 @@ This is a fictional financial institution which offers traditonal financial serv
 * PostgreSQL
 * TypeORM
 * JsonWebToken
-* JsonWebToken
 * Supertest
 
 
