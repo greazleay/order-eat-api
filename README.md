@@ -1,12 +1,21 @@
-# Finsys - API
+# Order Eat - API
 
-This is a fictional financial institution which offers traditonal financial services. New customers can open a new account while an existing account holder can perform the following:
+This is a fictional API for food ordering services. Customers can order different foods and get the bill, which is the sum of the prices of the ordered food and the bill will be deducted from their already funded accounts.
 
-* Open multiple accounts
-* Check their account balance
-* Withdraw money from their account
+They also have the following services available:
+
+* Open a food ordering account
+* Fund their accounts for immediate and future food ordering
+* Get the list of all food items
+* Place a food order
+* Check the status of their food order
+* Cancel their food order
+* Get the bill of their current food order
+* Get the list of current orders
+* View a history of all their orders with bill amount
 * Close their account
 
+Please note that this project is still being developed and some services are currently unavailable.
 
 ## Authors
 
@@ -25,24 +34,24 @@ This is a fictional financial institution which offers traditonal financial serv
 
 ## Installation
 
-Install finsys-api with npm
+Install order-eat-api with npm
 
 ```bash
-  npm install finsys-api
-  cd finsys-api
+  npm install order-eat-api
+  cd order-eat-api
 ```
 ## Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/greazleay/finsys-api
+  git clone https://github.com/greazleay/order-eat-api
 ```
 
 Go to the project directory
 
 ```bash
-  cd finsys-api
+  cd order-eat-api
 ```
 
 Install dependencies
@@ -76,7 +85,7 @@ To run tests, run the following command
 
 ### Base URL
 
-* `https://api-finsys.herokuapp.com/`
+* `https://api-ordereat.herokuapp.com/`
 
 #### Post login
 
