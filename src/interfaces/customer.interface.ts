@@ -13,3 +13,9 @@ export interface ICustomer {
     updatedAt: Date;
     version: number;
 }
+
+export enum Role {
+    USER = "user",
+    ADMIN = "admin",
+    GUEST = "guest"
+}

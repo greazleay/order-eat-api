@@ -1,20 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, OneToMany } from "typeorm";
-import { BaseEntity } from "typeorm/repository/BaseEntity";
+import { Entity, Column, JoinColumn, OneToOne, OneToMany } from "typeorm";
 import bcrypt from "bcrypt";
+import { AbstractEntity } from "./Abstract";
 import { randomBytes } from "crypto";
-import { Account } from "@entities/Account";
-
-enum Role {
-    USER = "user",
-    ADMIN = "admin"
-}
-
+import { Wallet } from "@src/entities/Wallet";
+import { Order } from "./Order";
+import { Role } from "@src/interfaces/customer.interface";
 
 @Entity()
-export class Customer extends BaseEntity {
-
-    @PrimaryGeneratedColumn("uuid")
-    id!: string;
+export class Customer extends AbstractEntity {
 
     @Column()
     email!: string;
@@ -43,20 +36,12 @@ export class Customer extends BaseEntity {
     @Column({ type: "enum", enum: Role, default: Role.USER })
     role!: Role;
 
-    @OneToMany(() => Account, account => account.customer)
-    accounts!: Account[];
+    @OneToOne(() => Wallet, wallet => wallet.customer)
+    @JoinColumn()
+    wallet!: Wallet;
 
-    @Column()
-    @CreateDateColumn()
-    createdAt!: Date;
-
-    @Column()
-    @UpdateDateColumn()
-    updatedAt!: Date;
-
-    @Column()
-    @VersionColumn()
-    version!: number;
+    @OneToMany(() => Order, order => order.customer)
+    orders!: Order[];
 
     static hashPassword(password: string): Promise<string> {
         return bcrypt.hash(password, 10);
